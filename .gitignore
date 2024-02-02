@@ -1,16 +1,12 @@
 # Virtual Environment
 venv/
 
-# Anaconda
-.conda/
-env/
-
-# Jupyter Notebook
-.ipynb_checkpoints/
-
 # Compiled Python files
 __pycache__/
 *.pyc
+
+# Jupyter Notebook
+.ipynb_checkpoints/
 
 # IDE files
 .vscode/
