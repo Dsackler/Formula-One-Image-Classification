@@ -67,13 +67,12 @@ def classify_image(image_base64_data, file_path = None):
         # and I am reshaping it because __model.predict expects a 2D array, but I just want to pass in one image
         final = combined_img.reshape(1, len_image_array).astype(float)
 
-        
-        
     
         result.append({
             #Getting the first result
             'class': result.append(class_number_to_name(__model.predict(final)[0])),
-            'class_probability': __model.predict_proba(final) #not working
+            'class_probability': np.round(__model.predict_proba(final)*100, 2).tolist()[0], #Return the probability that it is the returned driver
+            'class_dictionary': __class_name_to_number
         })
 
         
@@ -105,4 +104,7 @@ def class_number_to_name(class_num):
 
 if __name__ == '__main__':
     load_saved_artifiacts()
-    print(classify_image(get_b64(), None))
+    print(classify_image(get_b64(), None)) #works well with base64
+    # going to try with image paths
+    print(classify_image(None, './test_images/Lewis_test.jpg'))
+    print(classify_image(None, './test_images/Seb_test.jpg'))
