@@ -11,15 +11,32 @@ __class_number_to_name = {}
 __model = None
 
 
-def get_cv2_image_from_base64_string(b64str):
+def get_cv2_image_from_base64_string(b64data):
     '''
     credit: https://stackoverflow.com/questions/33754935/read-a-base-64-encoded-image-from-memory-using-opencv-python-library
     :param uri:
     :return:
     '''
-    encoded_data = b64str.split(',')[1]
+    if isinstance(b64data, bytes):
+        # If it's already bytes, no need to split
+        # encoded_data = b64data
+        encoded_data = base64.b64encode(b64data).decode('utf-8')
+        print(encoded_data)
+        # base64.b64decode(encoded_data)
+    elif isinstance(b64data, str):
+        # If it's a string, split and get the second part
+        encoded_data = b64data.split(',')[1]
+        # print(encoded_data)
+    else:
+        raise ValueError("Unsupported data type. Expecting str or bytes.")
+
     nparr = np.frombuffer(base64.b64decode(encoded_data), np.uint8)
     img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+
+    print(f"Encoded Data Length: {len(encoded_data)}")
+    print(f"NumPy Array Shape: {nparr.shape}")
+    print(f"Decoded Image Shape: {img.shape}")
+
     return img
 
 
@@ -55,26 +72,30 @@ def classify_image(image_base64_data, file_path = None):
 
 
     result = []
-    for img in imgs:
-        scaled_raw_img = cv2.resize(img, (32, 32))
-        img_har = w2d(img, 'db1', 5)
-        scaled_img_har = cv2.resize(img_har, (32, 32))
-        combined_img = np.vstack((scaled_raw_img.reshape(32*32*3,1), scaled_img_har.reshape(32*32,1)))
+    if imgs != None:
+        for img in imgs:
+            scaled_raw_img = cv2.resize(img, (32, 32))
+            img_har = w2d(img, 'db1', 5)
+            scaled_img_har = cv2.resize(img_har, (32, 32))
+            combined_img = np.vstack((scaled_raw_img.reshape(32*32*3,1), scaled_img_har.reshape(32*32,1)))
 
-        len_image_array = 32*32*3 + 32*32
+            len_image_array = 32*32*3 + 32*32
 
-        #the API expects a float datatype. So I am converting it to a float
-        # and I am reshaping it because __model.predict expects a 2D array, but I just want to pass in one image
-        final = combined_img.reshape(1, len_image_array).astype(float)
+            #the API expects a float datatype. So I am converting it to a float
+            # and I am reshaping it because __model.predict expects a 2D array, but I just want to pass in one image
+            final = combined_img.reshape(1, len_image_array).astype(float)
 
-    
+        
+            result.append({
+                #Getting the first result
+                'class': result.append(class_number_to_name(__model.predict(final)[0])),
+                'class_probability': np.round(__model.predict_proba(final)*100, 2).tolist()[0], #Return the probability that it is the returned driver
+                'class_dictionary': __class_name_to_number
+            })
+    else:
         result.append({
-            #Getting the first result
-            'class': result.append(class_number_to_name(__model.predict(final)[0])),
-            'class_probability': np.round(__model.predict_proba(final)*100, 2).tolist()[0], #Return the probability that it is the returned driver
-            'class_dictionary': __class_name_to_number
-        })
-
+                'class': result.append("Unable to detect driver. Please select an image with a clear face which shows two clear eyes"),
+            })
         
 
         
@@ -106,5 +127,5 @@ if __name__ == '__main__':
     load_saved_artifiacts()
     print(classify_image(get_b64(), None)) #works well with base64
     # going to try with image paths
-    print(classify_image(None, './test_images/Lewis_test.jpg'))
-    print(classify_image(None, './test_images/Seb_test.jpg'))
+    # print(classify_image(None, './test_images/Lewis_test.jpg'))
+    # print(classify_image(None, './test_images/Seb_test.jpg'))
