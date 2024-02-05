@@ -7,18 +7,13 @@ Welcome to the Formula One Driver Recognition App! This application allows you t
 2. Receive instant feedback on the driver's name.
 
 ## Demo Video
-Watch the app in action [here](media/demo_video.mov).
+[![Click to watch the demo video](media/video_thumbnail.jpg)](media/demo_video.mp4)
 
 ## Technologies Used
 - React.js
 - Flask
 - Axios
 - HTML5, CSS3
-
-## Setup
-1. Clone the repository.
-2. Navigate to the project folder and run `npm install` to install dependencies.
-3. Run the app using `npm start`.
 
 Feel free to contribute or provide feedback!
 
