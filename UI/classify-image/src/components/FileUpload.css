@@ -1,0 +1,23 @@
+.dropzone {
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+  }
+  
+  .dropzone.active {
+    border-color: #2196F3;
+  }
+  
+  .ImageSection {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+  }
+  
+  .ImageSection img {
+    width: 200px; /* Adjust as needed */
+    height: 200px; /* Adjust as needed */
+    border-radius: 50%;
+    margin-right: 20px;
+    margin-bottom: 20px;
+  }

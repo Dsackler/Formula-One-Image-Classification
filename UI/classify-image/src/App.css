@@ -1,3 +1,9 @@
+body {
+  background: linear-gradient(to left, #DC0000, #808080); /* Gradient from Deep Red to Silver */
+  margin: 0;
+  padding: 0;
+}
+
 .App {
   text-align: center;
 }
@@ -7,14 +13,8 @@
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 .App-header {
-  background-color: #282c34;
+  background: linear-gradient(to left, #DC0000, #808080); /* Gradient from Deep Red to Silver */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -24,15 +24,25 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.dropzone {
+  /* border: 2px solid #808080; Darker Silver Border
+  border-radius: 10px; */
+  background-color: #808080; /* Deep Red Background Color */
+  transition: background-color 0.3s ease; /* Smooth transition */
+
+  /* ... (your existing styles) */
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.dropzone:hover {
+  background-color: #C0C0C0; /* Brighter Red on Hover */
 }
+
+pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 16px;
+  text-align: left;
+}
+
+/* Add your additional styles here for the image display */
