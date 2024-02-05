@@ -18,24 +18,16 @@ def get_cv2_image_from_base64_string(b64data):
     :return:
     '''
     if isinstance(b64data, bytes):
-        # If it's already bytes, no need to split
-        # encoded_data = b64data
+        # Have to encode the data for it to work
         encoded_data = base64.b64encode(b64data).decode('utf-8')
-        print(encoded_data)
-        # base64.b64decode(encoded_data)
     elif isinstance(b64data, str):
         # If it's a string, split and get the second part
         encoded_data = b64data.split(',')[1]
-        # print(encoded_data)
     else:
         raise ValueError("Unsupported data type. Expecting str or bytes.")
 
     nparr = np.frombuffer(base64.b64decode(encoded_data), np.uint8)
     img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-
-    print(f"Encoded Data Length: {len(encoded_data)}")
-    print(f"NumPy Array Shape: {nparr.shape}")
-    print(f"Decoded Image Shape: {img.shape}")
 
     return img
 
@@ -94,7 +86,7 @@ def classify_image(image_base64_data, file_path = None):
             })
     else:
         result.append({
-                'class': result.append("Unable to detect driver. Please select an image with a clear face which shows two clear eyes"),
+                'class': result.append("Unable to detect a face. Please upload an image where the driver's face is clearly visible, showing both eyes."),
             })
         
 
