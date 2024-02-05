@@ -11,6 +11,10 @@ Welcome to the Formula One Driver Recognition App! This application allows you t
 
 ## Technologies Used
 - React.js
+- Scikit-Learn
+- Pandas
+- OpenCV
+- PyWavelets
 - Flask
 - Axios
 - HTML5, CSS3
